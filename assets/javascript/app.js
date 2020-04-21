@@ -86,6 +86,76 @@ var game = {
         } else {
             setTimeout(this.nextQuestion, 3 * 1000);
         }
-    }
+    },
 
-}
+    results: function () {
+        clearInterval(window.timer);
+        card.html("<h2> You finished, check out your results!</h2>");
+        $("counter-number").text(this.counter);
+        card.append("<h3> Correct Answers: " + this.correct + "</h3>");
+        card.append("<br><button id='reattempt'> Reattempt</button>");
+    },
+
+    //Determines which element (button) the user selected
+    clicked: function(e) {
+        clearInterval(window.timer);
+        if($(e.target).attr("data-name") === questions[this.currentQuestion].correctAnswer) {
+            this.correctAnswer();
+        } else {
+            this.wrongAnswer();
+        }
+    },
+
+    wrongAnswer: function () {
+        this.incorrect++;
+        clearInterval(window.timer);
+        
+        card.html("<h2> Sorry, that answer is incorrect!</h2>");
+        card.append("<h3> The correct answer was: " + questions[this.currentQuestion].correctAnswer + "</h3>");
+        card.append("<img src='" + questions[this.currentQuestion].image + "'/>");
+        card.append("<h3> Did you know: " + questions[this.currentQuestion].extraInfo + "</h3>");
+
+        if (this.currentQuestion === questions.length - 1) {
+            setTimeout(this.results.bind(this), 3 * 1000);
+        } else {
+            setTimeout(this.nextQuestion.bind(this), 3 * 1000);
+        }
+    },
+
+    correctAnswer: function() {
+        clearInterval(window.timer);
+        this.correct++;
+        card.html("<h2> Stupendous, you are correct!</h2>");
+        card.append("<img src='" + questions[this.currentQuestion].image + "'/>");
+        card.append("<h3> Did you know: " + questions[this.currentQuestion].extraInfo + "</h3>");
+
+        if (this.currentQuestion === questions.length -1) {
+            setTimeout(this.results.bind(this), 3 * 1000);
+        } else {
+            setTimeout(this.nextQuestion.bind(this), 3 * 1000);
+        }
+    },
+
+    //resets game variables
+    reset: function () {
+        this.currentQuestion = 0;
+        this.counter = countStart;
+        this.correct = 0;
+        this.incorrect = 0;
+        this.loadQuestion();
+    }
+};
+
+//Click Events
+$(document).on("click", "#reattempt", game.reset.bind(game));
+
+$(document).on("click", ".ansButton", function(e) {
+    game.clicked.bind(game, e) ();
+});
+
+//When the game starts, the question timer is added to the sub-wrapper
+$(document).on("click", "#start", function() {
+    $("#sub-wrapper").prepend("<h2> Timer : <span id='counter-number'>30</span> Seconds</h2>");
+    game.loadQuestion.bind(game)();
+    $("#start").hide();
+});
