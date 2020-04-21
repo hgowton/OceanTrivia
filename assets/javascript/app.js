@@ -1,5 +1,9 @@
 var card = $("#quiz-area");
+var score = $("#results-area")
 var countStart = 30;
+var correct = 0;
+var incorrect = 0;
+var currentQuestion = 0;
 
 //Question Array
 var questions = [{
@@ -19,13 +23,13 @@ var questions = [{
     answers: ["India", "Antartica", "under water", "Africa"],
     correctAnswer: "under water",
     image: "assets/images/mountain.jpg",
-    exInfo : "Earth’s longest chain of mountains, the Mid-Ocean Ridge, is almost entirely beneath the ocean, stretching across a distance of 65,000 kilometres. It’s said that this mountain chain is less explored than the surface of Venus or Mars"
+    extraInfo : "Earth’s longest chain of mountains, the Mid-Ocean Ridge, is almost entirely beneath the ocean, stretching across a distance of 65,000 kilometres. It’s said that this mountain chain is less explored than the surface of Venus or Mars"
 },{
     question: "The copper found in this organism's blood has helped it become a key research specimen.",
     answers: ["horseshoe crab", "blue crab", "jellyfish", "octupus"],
     correctAnswer: "horseshoe crab",
     image: "assets/images/copper.jpg",
-    exInfo : "Horseshoe crabs use hemocyanin to carry oxygen through their blood. Because of the copper present in hemocyanin, their blood is blue. Their blood contains amebocytes, which play a similar role to the white blood cells of vertebrates in defending the organism against pathogens."
+    extraInfo : "Horseshoe crabs use hemocyanin to carry oxygen through their blood. Because of the copper present in hemocyanin, their blood is blue. Their blood contains amebocytes, which play a similar role to the white blood cells of vertebrates in defending the organism against pathogens."
 }]
 
 //Variable for setInterval
@@ -34,10 +38,8 @@ var timer;
 //variable to setup game functionality
 var game = {
     questions: questions,
-    currentQuestion: 0,
+    // currentQuestion: 0,
     counter: countStart,
-    correct: 0,
-    incorrect: 0,
 
     countdown: function () {
         this.counter--;
@@ -49,14 +51,17 @@ var game = {
     },
 
     loadQuestion: function () {
+        $("#results-area").empty();
+        $("#quiz-area").show();
+
 
         timer = setInterval(this.countdown.bind(this), 1000);
 
-        card.html("<h2>" + questions[this.currentQuestion].question + "</h2>");
+        card.html("<h3>" + questions[currentQuestion].question + "</h3>");
 
         //creates a button for each possible answer with a data attribute of name for the answer
-        for (var i=0; i<questions[this.currentQuestion].answers.length; i++) {
-            card.append("<button class='ansButton' id='button' data-name='" + questions[this.currentQuestion].answers[i] + "'>" + questions[this.currentQuestion].answers[i] + "</button>")
+        for (var i=0; i < questions[currentQuestion].answers.length; i++) {
+            card.append("<button class='ansButton' id='button' data-name='" + questions[currentQuestion].answers[i] + "'>" + questions[currentQuestion].answers[i] + "</button>")
         };
     },
 
@@ -64,25 +69,31 @@ var game = {
     nextQuestion: function() {
         this.counter = window.countStart;
         $("#counter-number").text(this.counter);
-        this.currentQuestion++;
+        currentQuestion++;
         this.loadQuestion.bind(this)();
     },
 
     timeUp: function () {
         clearInterval(window.timer);
+        $("#quiz-area").hide();
+
         
         //resets timer
         $("#counter-number").text(this.counter);
 
-        //Lets the user know time has run out and the correct answer
-        card.html("<h2> You ran out of time!</h2>");
-        card.append("<h3>The correct answer was: " + questions[this.currentQuestion].correctAnswer);
-        card.append("<img src='" + questions[this.currentQuestion].image + "'/>");
+        var warnings = $("<div class='col-md-6'>").append(
+            $("<h2>").text("You ran out of time!"),
+            $("<h3>").text("The correct answer was: " + questions[currentQuestion].correctAnswer)
+        )
+        var image = $("<div class='col-md-6 oceanImage'>").append(
+            $("<img class='img-fluid'/>").attr("src", questions[currentQuestion].image).attr("alt", "ocean image")
+            );
+        card.append(warnings, image);
 
         //If no more questions, show results 
         //Otherwise, show next question
-        if (this.currentQuestion === questions.length - 1) {
-            setTimeout(this.results, 3 *1000); 
+        if (currentQuestion === questions.length - 1) {
+            setTimeout(this.results, 3 * 1000); 
         } else {
             setTimeout(this.nextQuestion, 3 * 1000);
         }
@@ -90,16 +101,25 @@ var game = {
 
     results: function () {
         clearInterval(window.timer);
-        card.html("<h2> You finished, check out your results!</h2>");
-        $("counter-number").text(this.counter);
-        card.append("<h3> Correct Answers: " + this.correct + "</h3>");
-        card.append("<br><button id='reattempt'> Reattempt</button>");
+        $("#results-area").empty();
+        var end = $("<div class='col-md-6'>").append(
+            $("<h1>").text(" You finished, check out your results!"),
+            $("counter-number").text(this.counter),
+        )
+        var gameResults = $("<div class='col-md-6'>").append(
+            $("<h2>").text("Your Game Results"),
+            $("<h3>").text("Total Number Correct: " + correct),
+            $("<h3>").text("Total Number Incorrect: " + incorrect),
+            $("<button id='reattempt'>").text("Reattempt")
+        )
+        var row = $("<div class='row'>").append(end, gameResults)
+        score.append(row);
     },
 
     //Determines which element (button) the user selected
     clicked: function(e) {
         clearInterval(window.timer);
-        if($(e.target).attr("data-name") === questions[this.currentQuestion].correctAnswer) {
+        if($(e.target).attr("data-name") === questions[currentQuestion].correctAnswer) {
             this.correctAnswer();
         } else {
             this.wrongAnswer();
@@ -107,15 +127,22 @@ var game = {
     },
 
     wrongAnswer: function () {
-        this.incorrect++;
+        incorrect++;
         clearInterval(window.timer);
-        
-        card.html("<h2> Sorry, that answer is incorrect!</h2>");
-        card.append("<h3> The correct answer was: " + questions[this.currentQuestion].correctAnswer + "</h3>");
-        card.append("<img src='" + questions[this.currentQuestion].image + "'/>");
-        card.append("<h3> Did you know: " + questions[this.currentQuestion].extraInfo + "</h3>");
 
-        if (this.currentQuestion === questions.length - 1) {
+        var answer = $("<div class='col-md-6'>").append(
+            $("<h2>").text("Sorry, that answer is incorrect!"),
+            $("<p>").html("<span class='info'>The correct answer was: </span>" + questions[currentQuestion].correctAnswer),
+            $("<p>").html("<span class='info'>Did you know: </span>" + questions[currentQuestion].extraInfo),
+            $("<p>").html("<span class='info'> Score: </span>" + correct)
+        )
+        var image = $("<div class='col-md-6 oceanImage'>").append(
+            $("<img class='img-fluid'/>").attr("src", questions[currentQuestion].image).attr("alt", "ocean image")
+            );
+        var row = $("<div class='row'>").append(answer, image);
+        score.append(row);
+            
+        if (currentQuestion === questions.length - 1) {
             setTimeout(this.results.bind(this), 3 * 1000);
         } else {
             setTimeout(this.nextQuestion.bind(this), 3 * 1000);
@@ -124,12 +151,20 @@ var game = {
 
     correctAnswer: function() {
         clearInterval(window.timer);
-        this.correct++;
-        card.html("<h2> Stupendous, you are correct!</h2>");
-        card.append("<img src='" + questions[this.currentQuestion].image + "'/>");
-        card.append("<h3> Did you know: " + questions[this.currentQuestion].extraInfo + "</h3>");
+        correct++;
 
-        if (this.currentQuestion === questions.length -1) {
+        var answer = $("<div class='col-md-6'>").append(
+            $("<h2>").text("Stupendous, you are correct!"),
+            $("<p>").html("<span class='info'> Did you know: </span>" + questions[currentQuestion].extraInfo)
+        )
+        var image = $("<div class='col-md-6 oceanImage'>").append(
+            $("<img class='img-fluid'/>").attr("src", questions[currentQuestion].image).attr("alt", "ocean image")
+            );
+
+        var row = $("<div class='row'>").append(answer, image);
+        score.append(row);
+
+        if (currentQuestion === questions.length -1) {
             setTimeout(this.results.bind(this), 3 * 1000);
         } else {
             setTimeout(this.nextQuestion.bind(this), 3 * 1000);
@@ -138,11 +173,13 @@ var game = {
 
     //resets game variables
     reset: function () {
-        this.currentQuestion = 0;
+        currentQuestion = 0;
         this.counter = countStart;
-        this.correct = 0;
-        this.incorrect = 0;
+        correct = 0;
+        incorrect = 0;
         this.loadQuestion();
+        $("#quiz-area").show();
+        $("#results-area").empty();
     }
 };
 
@@ -151,11 +188,13 @@ $(document).on("click", "#reattempt", game.reset.bind(game));
 
 $(document).on("click", ".ansButton", function(e) {
     game.clicked.bind(game, e) ();
+    $("#quiz-area").hide();
+    console.log(game)
 });
 
 //When the game starts, the question timer is added to the sub-wrapper
 $(document).on("click", "#start", function() {
-    $("#sub-wrapper").prepend("<h2> Timer : <span id='counter-number'>30</span> Seconds</h2>");
+    $("#sub-wrapper").prepend("<h4> Timer : <span id='counter-number'>30</span> Seconds</h4>");
     game.loadQuestion.bind(game)();
     $("#start").hide();
 });

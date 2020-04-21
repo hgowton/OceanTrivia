@@ -1,0 +1,12 @@
+.ansButton {
+    width: 400px;
+    background-color: blue;
+    color: white;
+    float: left;
+    padding: 4px;
+    margin: 10px;
+}
+
+.info {
+    font-weight: bold;
+}
