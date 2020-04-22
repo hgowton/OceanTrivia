@@ -30,7 +30,19 @@ var questionsBank = [{
     correctAnswer: "horseshoe crab",
     image: ["assets/images/copper.jpg", "assets/images/surfing.gif"],
     extraInfo : "Horseshoe crabs use hemocyanin to carry oxygen through their blood. Because of the copper present in hemocyanin, their blood is blue. Their blood contains amebocytes, which play a similar role to the white blood cells of vertebrates in defending the organism against pathogens."
-}]
+}, {
+    question: "Communities living in midocean ridges rely on bacteria beforing ______________ to create energy.", 
+    answers: ["photosynthesis", "exocytosis", "chemosynthesis", "cellular respiration"],
+    correctAnswer: "chemosynthesis", 
+    image: ["assets/images/hydrothermalVent.gif", "assets/images/submarine.gif"],
+    extraInfo: "Chemosynthesis is the process by which food (glucose) is made by bacteria using chemicals as the energy source, rather than sunlight. Chemosynthesis occurs around hydrothermal vents and methane seeps in the deep sea where sunlight is absent."
+}, {
+    question: "What part of the starfish enables it to regenerate?", 
+    answers: ["gonad", "pyloric cecum", "gonopore", "madreporite"],
+    correctAnswer: "madreporite", 
+    image: ["assets/images/starfish.jpg", "assets/images/littlefish.gif"],
+    extraInfo: "Because starfish like to eat clams and oysters, fishermen who gather shellfish have tried for years to get rid of them. To kill the starfish, fishermen would catch them, slice them right in half, and throw them back in the ocean. However, if even a small part of their madreporite is present the starfish can grow back parts of their bodies. Thus fisherman were actually increasing the number of starfish."
+},]
 
 //Variable for setInterval
 var timer;
