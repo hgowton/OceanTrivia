@@ -85,10 +85,11 @@ var game = {
             $("<h3>").text("The correct answer was: " + this.questions[currentQuestion].correctAnswer)
         )
         var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image).attr("alt", "ocean image")
+            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image[0]).attr("alt", "ocean image")
             );
-        card.append(warnings, image);
-
+        var row = $("<div class='row'>").append(warnings, image)
+        score.append(row);
+    
         //If no more questions, show results 
         //Otherwise, show next question
 
