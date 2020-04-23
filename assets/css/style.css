@@ -1,16 +1,32 @@
 body {
     background: url("../images/785.jpg");
+    color: #f5f5f5;
   }
+
+.oceanImage {
+    border-radius: 2rem;
+    border: outset 2px gray;
+}
+
+.h2, .h3 {
+    font-family: 'Raleway', sans-serif;
+}
+
+.p, h4 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
 
 #title { 
     font-family: 'Chelsea Market', cursive;
     color: #cccccc;
     text-shadow: 0px 0px 3px #0f1277;
     font-size: 40px;
+    text-align: center;
 }
 
 #wrapper {
-    background-color: #87cefa;
+    background-color: ;
+    background-image: linear-gradient(to bottom left, #87cefa, #437bf9, #274cf6);
     margin-top: 40px;
     border-radius: 12px;
     height: 600px;
@@ -27,6 +43,10 @@ body {
     margin: 10px;
     border-radius: 2rem;
     animation: mymove 12s infinite;
+}
+
+#results, #startButton {
+    text-align: center;
 }
 
 @keyframes mymove {

@@ -74,12 +74,13 @@ var game = {
 
 
         timer = setInterval(this.countdown.bind(this), 1000);
-
+        
         var questions = $("<div class='col-md-7 questions'>").html("<h3>" + this.questions[currentQuestion].question + "</h3>");
         var questionImage = $("<div class='col-md-5'>").append(
-            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image).attr("alt", "ocean image")
-        );
-        
+            $("<img class='img-fluid oceanImage'/>").attr("src", this.questions[currentQuestion].image).attr("alt", "ocean image")
+            );
+            
+        this.questions[currentQuestion].answers.sort(()=> Math.random() - .5)
         //creates a button for each possible answer with a data attribute of name for the answer
         for (var i=0; i < this.questions[currentQuestion].answers.length; i++) {
             questions.append("<button class='ansButton' id='button' data-name='" + this.questions[currentQuestion].answers[i] + "'>" + this.questions[currentQuestion].answers[i] + "</button>")
@@ -109,8 +110,8 @@ var game = {
             $("<h2>").text("You ran out of time!"),
             $("<h3>").text("The correct answer was: " + this.questions[currentQuestion].correctAnswer)
         )
-        var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", "assets/images/timer.gif",).attr("alt", "timer image")
+        var image = $("<div class='col-md-6'>").append(
+            $("<img class='img-fluid oceanImage'/>").attr("src", "assets/images/timer.gif",).attr("alt", "timer image")
             );
         var row = $("<div class='row'>").append(warnings, image)
         score.append(row);
@@ -132,7 +133,7 @@ var game = {
             $("<h1>").text(" You finished, check out your results!"),
             $("counter-number").text(this.counter),
         )
-        var gameResults = $("<div class='col-md-6'>").append(
+        var gameResults = $("<div class='col-md-6' id='results'>").append(
             $("<h2>").text("Your Game Results"),
             $("<h3>").text("Total Number Correct: " + correct),
             $("<h3>").text("Total Number Incorrect: " + incorrect),
@@ -164,8 +165,8 @@ var game = {
         )
         
         randomPic = Math.floor(Math.random()*6);
-        var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", answerType.incorrect[randomPic]).attr("alt", "incorrect image")
+        var image = $("<div class='col-md-6'>").append(
+            $("<img class='img-fluid oceanImage'/>").attr("src", answerType.incorrect[randomPic]).attr("alt", "incorrect image")
             );
         var row = $("<div class='row'>").append(answer, image);
         score.append(row);
@@ -187,8 +188,8 @@ var game = {
         )
 
         randomPic = Math.floor(Math.random()*7);
-        var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", answerType.correct[randomPic]).attr("alt", "correct image")
+        var image = $("<div class='col-md-6'>").append(
+            $("<img class='img-fluid oceanImage'/>").attr("src", answerType.correct[randomPic]).attr("alt", "correct image")
             );
 
         var row = $("<div class='row'>").append(answer, image);
