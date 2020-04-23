@@ -10,37 +10,37 @@ var questionsBank = [{
     question: "Our oceans cover more than ______ of the Earth’s surface.",
     answers: ["60%", "65%", "70%", "75%"],
     correctAnswer: "70%",
-    image: ["assets/images/earth.jpg","assets/images/jellyfish.gif"],
+    image: "assets/images/earth.jpg",
     extraInfo: "With so much of the Earth’s surface taken up by ocean, it’s evident how vital these marine environments are to the planet, and how much there still is to be explored."
 }, {
     question: "The majority of life on Earth is __________",
     answers: ["aquatic", "benthic", "terrestrial", "nocturnal"],
     correctAnswer: "aquatic",
-    image: ["assets/images/biodiversity.png", "assets/images/octopus.gif"],
+    image: "assets/images/biodiversity.png",
     extraInfo: "As so much of the Earth’s surface is underwater, it comes as no surprise that marine species outnumber those on land. But, it’s an incredible 94 per cent of the Earth’s living species that exist within the oceans."
 },{
     question: "Where is the world's largest mountain chain?",
     answers: ["India", "Antartica", "under water", "Africa"],
     correctAnswer: "under water",
-    image: ["assets/images/mountain.jpg", "assets/images/turtle.gif"],
+    image: "assets/images/mountain.jpg",
     extraInfo : "Earth’s longest chain of mountains, the Mid-Ocean Ridge, is almost entirely beneath the ocean, stretching across a distance of 65,000 kilometres. It’s said that this mountain chain is less explored than the surface of Venus or Mars"
 },{
     question: "The copper found in this organism's blood has helped it become a key research specimen.",
     answers: ["horseshoe crab", "blue crab", "jellyfish", "octupus"],
     correctAnswer: "horseshoe crab",
-    image: ["assets/images/copper.jpg", "assets/images/surfing.gif"],
+    image: "assets/images/copper.jpg",
     extraInfo : "Horseshoe crabs use hemocyanin to carry oxygen through their blood. Because of the copper present in hemocyanin, their blood is blue. Their blood contains amebocytes, which play a similar role to the white blood cells of vertebrates in defending the organism against pathogens."
 }, {
     question: "Communities living in midocean ridges rely on bacteria beforing ______________ to create energy.", 
     answers: ["photosynthesis", "exocytosis", "chemosynthesis", "cellular respiration"],
     correctAnswer: "chemosynthesis", 
-    image: ["assets/images/hydrothermalVent.gif", "assets/images/submarine.gif"],
+    image: "assets/images/hydrothermalVent.gif",
     extraInfo: "Chemosynthesis is the process by which food (glucose) is made by bacteria using chemicals as the energy source, rather than sunlight. Chemosynthesis occurs around hydrothermal vents and methane seeps in the deep sea where sunlight is absent."
 }, {
     question: "What part of the starfish enables it to regenerate?", 
     answers: ["gonad", "pyloric cecum", "gonopore", "madreporite"],
     correctAnswer: "madreporite", 
-    image: ["assets/images/starfish.jpg", "assets/images/littlefish.gif"],
+    image: "assets/images/starfish.jpg",
     extraInfo: "Because starfish like to eat clams and oysters, fishermen who gather shellfish have tried for years to get rid of them. To kill the starfish, fishermen would catch them, slice them right in half, and throw them back in the ocean. However, if even a small part of their madreporite is present the starfish can grow back parts of their bodies. Thus fisherman were actually increasing the number of starfish."
 },]
 
@@ -69,17 +69,24 @@ var game = {
 
     loadQuestion: function () {
         $("#results-area").empty();
+        $("#quiz-area").empty();
         $("#quiz-area").show();
 
 
         timer = setInterval(this.countdown.bind(this), 1000);
 
-        card.html("<h3>" + this.questions[currentQuestion].question + "</h3>");
-
+        var questions = $("<div class='col-md-7 questions'>").html("<h3>" + this.questions[currentQuestion].question + "</h3>");
+        var questionImage = $("<div class='col-md-5'>").append(
+            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image).attr("alt", "ocean image")
+        );
+        
         //creates a button for each possible answer with a data attribute of name for the answer
         for (var i=0; i < this.questions[currentQuestion].answers.length; i++) {
-            card.append("<button class='ansButton' id='button' data-name='" + this.questions[currentQuestion].answers[i] + "'>" + this.questions[currentQuestion].answers[i] + "</button>")
+            questions.append("<button class='ansButton' id='button' data-name='" + this.questions[currentQuestion].answers[i] + "'>" + this.questions[currentQuestion].answers[i] + "</button>")
         };
+        
+        var row = $("<div class='row'>").append(questions, questionImage)
+        card.append(row);
     },
 
     //calls the next question ---- restarts timer, increases current question number, loads next question
@@ -93,7 +100,7 @@ var game = {
     timeUp: function () {
         clearInterval(window.timer);
         $("#quiz-area").hide();
-
+        ++incorrect;
         
         //resets timer
         $("#counter-number").text(this.counter);
@@ -103,7 +110,7 @@ var game = {
             $("<h3>").text("The correct answer was: " + this.questions[currentQuestion].correctAnswer)
         )
         var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image[0]).attr("alt", "ocean image")
+            $("<img class='img-fluid'/>").attr("src", "assets/images/timer.gif",).attr("alt", "timer image")
             );
         var row = $("<div class='row'>").append(warnings, image)
         score.append(row);
