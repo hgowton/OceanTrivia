@@ -44,6 +44,11 @@ var questionsBank = [{
     extraInfo: "Because starfish like to eat clams and oysters, fishermen who gather shellfish have tried for years to get rid of them. To kill the starfish, fishermen would catch them, slice them right in half, and throw them back in the ocean. However, if even a small part of their madreporite is present the starfish can grow back parts of their bodies. Thus fisherman were actually increasing the number of starfish."
 },]
 
+answerType = {
+    incorrect: ["assets/images/worried.gif", "assets/images/madOctopus.gif","assets/images/eatFish.gif","assets/images/smileMad.gif","assets/images/sadFaces.gif","assets/images/changeMood.gif"], 
+    correct: ["assets/images/fishMouths.gif","assets/images/crabWave.gif","assets/images/fish.gif", "assets/images/jellyfish.gif","assets/images/littlefish.gif","assets/images/octopus.gif","assets/images/penguin.gif","assets/images/turtle.gif","assets/images/surfing.gif"]
+}
+
 //Variable for setInterval
 var timer;
 
@@ -51,6 +56,7 @@ var timer;
 var game = {
     questions: [...questionsBank],
     counter: countStart,
+    answerType: answerType,
 
     countdown: function () {
         this.counter--;
@@ -149,8 +155,10 @@ var game = {
             $("<p>").html("<span class='info'>Did you know: </span>" + this.questions[currentQuestion].extraInfo),
             $("<p>").html("<span class='info'> Score: </span>" + correct)
         )
+        
+        randomPic = Math.floor(Math.random()*6);
         var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image[0]).attr("alt", "ocean image")
+            $("<img class='img-fluid'/>").attr("src", answerType.incorrect[randomPic]).attr("alt", "incorrect image")
             );
         var row = $("<div class='row'>").append(answer, image);
         score.append(row);
@@ -170,8 +178,10 @@ var game = {
             $("<h2>").text("Stupendous, you are correct!"),
             $("<p>").html("<span class='info'> Did you know: </span>" + this.questions[currentQuestion].extraInfo)
         )
+
+        randomPic = Math.floor(Math.random()*7);
         var image = $("<div class='col-md-6 oceanImage'>").append(
-            $("<img class='img-fluid'/>").attr("src", this.questions[currentQuestion].image[1]).attr("alt", "ocean image")
+            $("<img class='img-fluid'/>").attr("src", answerType.correct[randomPic]).attr("alt", "correct image")
             );
 
         var row = $("<div class='row'>").append(answer, image);
