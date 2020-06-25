@@ -42,7 +42,44 @@ var questionsBank = [{
     correctAnswer: "madreporite", 
     image: "assets/images/starfish.jpg",
     extraInfo: "Because starfish like to eat clams and oysters, fishermen who gather shellfish have tried for years to get rid of them. To kill the starfish, fishermen would catch them, slice them right in half, and throw them back in the ocean. However, if even a small part of their madreporite is present the starfish can grow back parts of their bodies. Thus fisherman were actually increasing the number of starfish."
-},]
+},
+{
+    question: "Coral bleaching is caused by all of the following except",
+    answers: [ "infection by protists, bacteria, or viruses", "overexposure to sunlight", "runoff and pollution", "change in ocean temperature" ],
+    correctAnswer: "infection by protists, bacteria, or viruses",
+    image: "assets/images/coralBleach.png",
+    extraInfo: "The color of coral is due largely to its symbiotic relationship with zooxanthellae.  Stressing coral causes the algea to leave, not only removing the color but depleating the coral of its primary food source."
+},
+{
+    question: "Fish are able to detect movement in water mainly through their",
+    answers: [ "optical system", "lateral line system", "transitional scale movements", "epidermal neral system" ],
+    correctAnswer: "lateral line system",
+    image: "assets/images/lateralLine.jpg",
+    extraInfo: "The lateral line system enables fish and some amphibians to gain information about their aquatic surroundings.  Besides detecting movement, the lateral line system can help fish orient themselves and play a viatal role in schooling."
+},
+{
+    question: "What gives the ocean its color?",
+    answers: [ "the sun", "the moon", "aquatic organisms", "tidal system" ],
+    correctAnswer: "the sun",
+    image: "https://www.rd.com/wp-content/uploads/2018/05/blue-ocean_ocean-facts-760x506.jpg",
+    extraInfo: 'The "deep blue sea"—and our "blue planet" along with it!—owe their iconic color to the light of the sun. When the sun shines on the ocean, the water absorbs the longer red and orange wavelengths of light while reflecting blue light back. This will only happen, though, with a large amount of water; the more water you have, the bluer it is.'
+},
+{
+    question: "The pressure at the bottom of the Marianna Trench can reach up to ____ tons per square inch.",
+    answers: [ "8", "10", "6", "4"],
+    correctAnswer: "8",
+    image: "https://www.rd.com/wp-content/uploads/2018/05/ocean-pressure_ocean-facts-760x506.jpg",
+    extraInfo: "Like, being-crushed-under-a-pile-of-elephants extreme. At the bottom of the Mariana Trench, the pressure is about eight tons per square inch, the equivalent of about 100 fully grown elephants. It's so intense that, while we do have machines capable of withstanding it, equipment has simply imploded under that amount of pressure. "
+},
+// {
+//     question: "",
+//     answers: [ "", "", "", "" ],
+//     correctAnswer: "",
+//     image: "assets/images/.jpg",
+//     extraInfo: ""
+// },
+
+]
 
 answerType = {
     incorrect: ["assets/images/worried.gif", "assets/images/madOctopus.gif","assets/images/eatFish.gif","assets/images/smileMad.gif","assets/images/sadFaces.gif","assets/images/changeMood.gif"], 
